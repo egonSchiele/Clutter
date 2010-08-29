@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package im.crate.zbridge.clutter;
+package im.crate.bridge.clutter;
 
 public final class R {
     public static final class attr {
