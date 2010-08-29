@@ -1,137 +1,100 @@
-ABACUS:abaque
-ABANDON:abandonner
-ABANDONED:chos.) abandonne/
-ABANDONING:abandon
-ABANDONMENT:abandonnement
-ABASE:abaisser
-ABASHMENT:confusion
-ABATE:rabaisser
-ABATE:s'abattre
-ABATEMENT:diminution
-ABATOR:personne qui fait un rabais
-ABATING:diminution
-ABBREVIATE:abre/ger
-ABDICATE:abdiquer
-ABDICATION:abdication
-ABDITORY:cachette
-ABDOMINOUS:anat.) abdominal
-ABDUCTION:action de mouvoir
-ABERRATION:aberration
-ABET:m.p.) soutenir
-ABHOR:abhorrer
-ABHORRENCE:horreur 
-ABHORRENT:avec horreur
-ABHORRER:personne qui abhorre
-ABIDE:rester
-ABIDE:attendre 
-ABIDING:se/jour
-ABIGAIL:suivante
-ABILITY:pouvoir
-ABJECT:homme abject
-ABJECTION:abjection
-ABJURATION:abjuration
-ABJURE:abjurer
-ABJURE:dr. angl.) abjurer 
-ABLATION:enle\vement
-ABLATIVE:qui enle\ve
-ABLE:capable
-ABLENESS:force 
-ABLUENT:qui nettoie
-ABLUTION:ablution
-ABOARD:a\ bord
-ABODE:demeure
-ABOLISH:abolir
-ABOMINABLE:to
-ABORIGINAL:pers.) d'aborige\nes
-ABORTION:avortement 
-ABORTIVE:abortif
-ABORTIVELY:en avortant
-ABOUT:autour de
-ABOUT:autour
-ABOVE:au dessus de
-ABOVE:en haut
-ABRADE:enlever 
-ABRASION:action d'enlever par le frottement
-ABREAST:de front
-ABRIDGE:abre/ger
-ABRIDGER:personne qui abre/ge
-ABRIDGEMENT:abre/ge/
-ABROACH:en perce
-ABROAD:au large
-ABRUPT:brise/
-ABRUPTION:FROM
-ABRUPTLY:brusquement
-ABRUPTNESS:brusquerie
-ABSCISSION:retranchement
-ABSCOND:se cacher
-ABSENCE:OF
-ABSENT:FROM
-ABSIST:s'e/loigner
-ABSOLUTE:absolu
-ABSOLUTELY:absolument
-ABSOLUTENESS:caracte\re absolu
-ABSOLUTION:dr.) absolution
-ABSOLUTORY:eccl.) absolutoire
-ABSOLVE:absoudre
-ABSORB:absorber
-ABSORBENT:pharm.
-ABSORPTION:absorption
-ABSORPTIVE:qui a la faculte/ d'absorber
-ABSTAIN:s'abstenir de
-ABSTEMIOUS:pers.) sobre
-ABSTENTION:abstinence
-ABSTERGE:laver
-ABSTERSIVE:abstersif
-ABSTINENCE:FROM
-ABSTRACT:soustraire 
-ABSTRACT:abstrait
-ABSTRACT:re/sume/
-ABSTRACTED:FROM
-ABSTRACTEDLY:abstraitement
-ABSTRACTION:abstraction
-ABSTRUSE:cache/
-ABSURDITY	:absurdite/
-ABUNDANCE:abondance
-ABUNDANTLY:abondamment
-ABUSE:abuser de
-ABUSE:abus
-ABUSER:abuseur
-ABUSIVE:abusif
-ABUSIVELY:abusivement
-ABUTMENT:but
-ACADEMICAL:acade/mique
-ACORNED:charge/ de glands
-ACQUAINT:familiariser 
-ACQUAINTED:connu
-ACQUEST:acquisition
-ACQUIESCE:acquiescer 
-ACQUIRE:acque/rir
-ACQUIREMENT:acquisition 
-ACQUISITION:acquisition
-ACQUIT:acquitter
-ACQUITTANCE:action d'acquitter
-ACRE:acre 
-ACRIMONY:acrimonie
-ACROSS:a\ travers
-ACT:agir
-ACT:jouer
-ACT:acte
-ACTING:qui agit
-ACTING:action
-ACTION:action
-ACTIONABLE:pers.) que l'on peut actionner
-ACTIVE:actif
-ACTIVELY:activement
-ACTIVITY:activite/
-ACTOR:acteur
-ACTUAL:effectif
-ACTUALLY:re/ellement
-ACTUARY:actuaire
-ACTUATE:metre en mouvement
-ACUMINATE:s'e/lever en co^ne
-ACUMINATE:aigu
-ACUMINATED:termine/ en pointe
-ACUMINATION:pointe aigue:
-ACUTE:aigu
-ACUTELY:d'une manie\re aigue:
-ACUTENESS:e/tat aigu
+the:le
+of:de
+and:et
+a:une
+to:à
+in:dans
+is:est
+you:vous
+that:qui
+it:il
+he:il
+was:a été
+for:pour
+on:sur
+are:sont
+as:comme
+with:avec
+his:son
+they:ils
+I:Je
+at:à
+be:être
+this:cette
+have:avoir
+from:à partir de
+or:ou
+one:une
+had:avait
+by:par
+word:mot
+but:mais
+not:pas
+what:quelle
+all:tous
+were:ont été
+we:nous
+when:quand
+your:votre
+can:peut
+said:dit
+there:là
+use:utilisation
+an:une
+each:chaque
+which:qui
+she:elle
+do:faire
+how:comment
+their:leur
+if:si
+will:volonté
+up:jusqu&#39;à
+other:autres
+about:sur
+out:à
+many:beaucoup
+then:puis
+them:les
+these:ces
+so:si
+some:certains
+her:son
+would:serait
+make:faire
+like:comme
+him:lui
+into:dans
+time:temps
+has:a
+look:Regardez
+two:deux
+more:plus
+write:écrire
+go:aller
+see:voir
+number:nombre
+no:aucun
+way:manière
+could:pourrait
+people:personnes
+my:mon
+than:que
+first:première
+water:eau
+been:été
+call:appel
+who:qui
+oil:pétrole
+its:ses
+now:maintenant
+find:trouver
+long:long
+down:vers le bas
+day:jour
+did:n&#39;a
+get:obtenir
+come:venir
+made:fait
+may:peut
+part:partie
