@@ -33,117 +33,117 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 public class Clutter extends BaseGameActivity implements IAccelerometerListener {
-	private static final int CAMERA_WIDTH = 720;
-	private static final int CAMERA_HEIGHT = 480;
+  private static final int CAMERA_WIDTH = 720;
+  private static final int CAMERA_HEIGHT = 480;
 
-	private Camera mCamera;
-	private Font mFont;
-	private Texture mFontTexture;
-	private PhysicsWorld mPhysicsWorld;
-	final Random random = new Random();
+  private Camera mCamera;
+  private Font mFont;
+  private Texture mFontTexture;
+  private PhysicsWorld mPhysicsWorld;
+  final Random random = new Random();
 
-	final FixtureDef wordFixtureDef = PhysicsFactory.createFixtureDef(1, 0.1f,
-			0.5f);
+  final FixtureDef wordFixtureDef = PhysicsFactory.createFixtureDef(1, 0.1f,
+      0.5f);
 
-	public Engine onLoadEngine() {
-		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE,
-				new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT),
-				this.mCamera));
-	}
+  public Engine onLoadEngine() {
+    this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+    return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE,
+        new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT),
+        this.mCamera));
+  }
 
-	public void onLoadResources() {
-		this.mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
-		this.mFont = new Font(this.mFontTexture, Typeface.create(
-				Typeface.SERIF, Typeface.BOLD), 38, true, Color.BLACK);
-		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
-		this.mEngine.getFontManager().loadFont(this.mFont);
-		this.enableAccelerometerSensor(this);
-	}
+  public void onLoadResources() {
+    this.mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
+    this.mFont = new Font(this.mFontTexture, Typeface.create(
+        Typeface.SERIF, Typeface.BOLD), 38, true, Color.BLACK);
+    this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
+    this.mEngine.getFontManager().loadFont(this.mFont);
+    this.enableAccelerometerSensor(this);
+  }
 
-	class Word {
-		Text txtShape;
-		Body txtBody;
+  class Word {
+    Text txtShape;
+    Body txtBody;
 
-		public Word(Font font, String text) {
-			txtShape = new Text(font.getStringWidth(text),
-					font.getLineHeight(), font, text);
-			txtBody = PhysicsFactory.createBoxBody(mPhysicsWorld, txtShape,
-					BodyType.DynamicBody, wordFixtureDef);
-			mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(
-					txtShape, txtBody, true, true, true, true));
-		}
-	}
+    public Word(Font font, String text) {
+      txtShape = new Text(font.getStringWidth(text),
+          font.getLineHeight(), font, text);
+      txtBody = PhysicsFactory.createBoxBody(mPhysicsWorld, txtShape,
+          BodyType.DynamicBody, wordFixtureDef);
+      mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(
+          txtShape, txtBody, true, true, true, true));
+    }
+  }
 
-	public Scene onLoadScene() {
-		this.mEngine.registerUpdateHandler(new FPSLogger());
+  public Scene onLoadScene() {
+    this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+    final Scene scene = new Scene(1);
 
-		final Vector2 gravity = new Vector2(0, 0);
+    final Vector2 gravity = new Vector2(0, 0);
 
-		this.mPhysicsWorld = new PhysicsWorld(gravity, false);
-		scene.setBackground(new ColorBackground(1.0f, 1.0f, 1.0f));
+    this.mPhysicsWorld = new PhysicsWorld(gravity, false);
+    scene.setBackground(new ColorBackground(1.0f, 1.0f, 1.0f));
 
-		final Shape ground = new Rectangle(0, CAMERA_HEIGHT - 2, CAMERA_WIDTH,
-				2);
-		final Shape roof = new Rectangle(0, 0, CAMERA_WIDTH, 2);
-		final Shape left = new Rectangle(0, 0, 2, CAMERA_HEIGHT);
-		final Shape right = new Rectangle(CAMERA_WIDTH - 2, 0, 2, CAMERA_HEIGHT);
+    final Shape ground = new Rectangle(0, CAMERA_HEIGHT - 2, CAMERA_WIDTH,
+        2);
+    final Shape roof = new Rectangle(0, 0, CAMERA_WIDTH, 2);
+    final Shape left = new Rectangle(0, 0, 2, CAMERA_HEIGHT);
+    final Shape right = new Rectangle(CAMERA_WIDTH - 2, 0, 2, CAMERA_HEIGHT);
 
-		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0,
-				0.5f, 0.5f);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, ground,
-				BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, roof,
-				BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left,
-				BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right,
-				BodyType.StaticBody, wallFixtureDef);
+    final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0,
+        0.5f, 0.5f);
+    PhysicsFactory.createBoxBody(this.mPhysicsWorld, ground,
+        BodyType.StaticBody, wallFixtureDef);
+    PhysicsFactory.createBoxBody(this.mPhysicsWorld, roof,
+        BodyType.StaticBody, wallFixtureDef);
+    PhysicsFactory.createBoxBody(this.mPhysicsWorld, left,
+        BodyType.StaticBody, wallFixtureDef);
+    PhysicsFactory.createBoxBody(this.mPhysicsWorld, right,
+        BodyType.StaticBody, wallFixtureDef);
 
-		// scene.getTopLayer().addEntity(textCenter);
-		for (int i = 0; i < 12; i++)
-			scene.getTopLayer().addEntity(new Word(mFont, "bonjour").txtShape);
-		for (int i = 0; i < 12; i++)
-			scene.getTopLayer().addEntity(new Word(mFont, "fuck").txtShape);
+    // scene.getTopLayer().addEntity(textCenter);
+    for (int i = 0; i < 12; i++)
+      scene.getTopLayer().addEntity(new Word(mFont, "bonjour").txtShape);
+    for (int i = 0; i < 12; i++)
+      scene.getTopLayer().addEntity(new Word(mFont, "fuck").txtShape);
 
-		scene.registerUpdateHandler(this.mPhysicsWorld);
-		scene.registerUpdateHandler(new IUpdateHandler() {
+    scene.registerUpdateHandler(this.mPhysicsWorld);
+    scene.registerUpdateHandler(new IUpdateHandler() {
 
-			public void onUpdate(float pSecondsElapsed) {
-				for (Body x : mPhysicsWorld.getBodies()) {
-					for(Body i: mPhysicsWorld.getBodies())
-					{
-						if(x != i)
-						{
-							float dist = i.getWorldCenter().dst2(x.getWorldCenter());
-							
-							if(dist != 0)
-								i.applyLinearImpulse(x.getWorldCenter().sub(i.getWorldCenter()).nor().mul(((10/dist) - (.001f * dist)) * -pSecondsElapsed), i.getWorldCenter());
-						}
-					}
-				}
-			}
+      public void onUpdate(float pSecondsElapsed) {
+        for (Body x : mPhysicsWorld.getBodies()) {
+          for(Body i: mPhysicsWorld.getBodies())
+          {
+            if(x != i)
+            {
+              float dist = i.getWorldCenter().dst2(x.getWorldCenter());
 
-			public void reset() {
-				// TODO Auto-generated method stub
+              if(dist != 0)
+                i.applyLinearImpulse(x.getWorldCenter().sub(i.getWorldCenter()).nor().mul(((10/dist) - (.001f * dist)) * -pSecondsElapsed), i.getWorldCenter());
+            }
+          }
+        }
+      }
 
-			}
-		});
+      public void reset() {
+        // TODO Auto-generated method stub
 
-		return scene;
-	}
+      }
+    });
 
-	public void onAccelerometerChanged(
-			final AccelerometerData pAccelerometerData) {
+    return scene;
+  }
 
-		//this.mPhysicsWorld.setGravity(new Vector2(pAccelerometerData.getY(),
-		//		pAccelerometerData.getX()));
-	}
+  public void onAccelerometerChanged(
+      final AccelerometerData pAccelerometerData) {
 
-	public void onLoadComplete() {
-		// TODO Auto-generated method stub
+    //this.mPhysicsWorld.setGravity(new Vector2(pAccelerometerData.getY(),
+    //    pAccelerometerData.getX()));
+  }
 
-	}
+  public void onLoadComplete() {
+    // TODO Auto-generated method stub
+
+  }
 }
