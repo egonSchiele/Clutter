@@ -33,6 +33,7 @@ import org.anddev.andengine.ui.activity.BaseGameActivity;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.DisplayMetrics;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -40,8 +41,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 public class Clutter extends BaseGameActivity implements IAccelerometerListener {
-  private static final int CAMERA_WIDTH = 720;
-  private static final int CAMERA_HEIGHT = 480;
+  private static int CAMERA_WIDTH;
+  private static int CAMERA_HEIGHT;
 
   private Camera mCamera;
   private Font mFont;
@@ -57,6 +58,10 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
       0.5f);
 
   public Engine onLoadEngine() {
+    DisplayMetrics metrics = new DisplayMetrics();
+    getWindowManager().getDefaultDisplay().getMetrics(metrics);
+    CAMERA_WIDTH = metrics.widthPixels;
+    CAMERA_HEIGHT = metrics.heightPixels;
     this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
     return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE,
         new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT),
