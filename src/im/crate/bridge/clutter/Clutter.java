@@ -1,5 +1,11 @@
 package im.crate.bridge.clutter;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import org.anddev.andengine.engine.Engine;
@@ -24,6 +30,7 @@ import org.anddev.andengine.sensor.accelerometer.AccelerometerData;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
+import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 
@@ -38,10 +45,14 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
 
   private Camera mCamera;
   private Font mFont;
-  private Texture mFontTexture;
+  private Font mEnglishFont;
   private PhysicsWorld mPhysicsWorld;
+  private ArrayList<String[]> wordlist = new ArrayList<String[]>();
+  private Map<String,String> inscene = new HashMap<String,String>();
+  private String currentWord;
   final Random random = new Random();
 
+  
   final FixtureDef wordFixtureDef = PhysicsFactory.createFixtureDef(1, 0.1f,
       0.5f);
 
@@ -53,12 +64,29 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
   }
 
   public void onLoadResources() {
-    this.mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
-    this.mFont = new Font(this.mFontTexture, Typeface.create(
+	AssetManager assetManager = getAssets();
+    Texture mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
+    Texture mEnglishFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
+    this.mFont = new Font(mFontTexture, Typeface.create(
         Typeface.SERIF, Typeface.BOLD), 38, true, Color.BLACK);
-    this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
-    this.mEngine.getFontManager().loadFont(this.mFont);
+    this.mEnglishFont = new Font(mEnglishFontTexture, Typeface.create(
+            Typeface.SERIF, Typeface.BOLD), 38, true, Color.GREEN);
+    this.mEngine.getTextureManager().loadTexture(mFontTexture);
+    this.mEngine.getTextureManager().loadTexture(mEnglishFontTexture);
+    this.mEngine.getFontManager().loadFont(this.mFont); 
+    this.mEngine.getFontManager().loadFont(this.mEnglishFont);
     this.enableAccelerometerSensor(this);
+    try {
+		BufferedReader wordrdr = new BufferedReader(new InputStreamReader(assetManager.open("dicts/english-french.txt")));
+		String line;
+		while((line = wordrdr.readLine()) != null)
+		{
+			wordlist.add(new String[] {line.substring(0, line.indexOf(":")), line.substring(line.indexOf(":")+1)});
+		}
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
   }
 
   class Word {
@@ -66,16 +94,24 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
     Body txtBody;
 
     public Word(Font font, String text) {
-      txtShape = new Text(font.getStringWidth(text),
-          font.getLineHeight(), font, text);
+      txtShape = new Text(100, 100, font, text);
       txtBody = PhysicsFactory.createBoxBody(mPhysicsWorld, txtShape,
           BodyType.DynamicBody, wordFixtureDef);
       mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(
           txtShape, txtBody, true, true, true, true));
     }
+    
+    public Word(Font font, String text, BodyType bodytype) {
+        txtShape = new Text(0, 0, font, text);
+        txtBody = PhysicsFactory.createBoxBody(mPhysicsWorld, txtShape,
+            bodytype, wordFixtureDef);
+        mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(
+            txtShape, txtBody, true, true, true, true));
+      }
   }
 
   public Scene onLoadScene() {
+	Random rand = new Random();
     this.mEngine.registerUpdateHandler(new FPSLogger());
 
     final Scene scene = new Scene(1);
@@ -104,10 +140,16 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
 
     // scene.getTopLayer().addEntity(textCenter);
     for (int i = 0; i < 12; i++)
-      scene.getTopLayer().addEntity(new Word(mFont, "bonjour").txtShape);
-    for (int i = 0; i < 12; i++)
-      scene.getTopLayer().addEntity(new Word(mFont, "fuck").txtShape);
-
+    {
+    	String[] pair = wordlist.get(rand.nextInt(wordlist.size()));
+    	scene.getTopLayer().addEntity(new Word(mFont, pair[1]).txtShape); //Add the French part of 12 random word pairs
+    	inscene.put(pair[0], pair[1]);
+    }
+    
+    currentWord = inscene.keySet().iterator().next();
+    scene.getTopLayer().addEntity(new Word(mEnglishFont, currentWord, BodyType.StaticBody).txtShape);
+    
+    
     scene.registerUpdateHandler(this.mPhysicsWorld);
     scene.registerUpdateHandler(new IUpdateHandler() {
 
