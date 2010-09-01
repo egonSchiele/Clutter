@@ -13,6 +13,7 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.handler.IUpdateHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
+import org.anddev.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
@@ -43,6 +44,12 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 public class Clutter extends BaseGameActivity implements IAccelerometerListener {
   private static int CAMERA_WIDTH;
   private static int CAMERA_HEIGHT;
+  
+  // base resolutions for android devices (add more as needed)
+  private static final int WIDTH16BY9 = 854;
+  private static final int HEIGHT16BY9 = 480;
+  private static final int WIDTH3BY2 = 720;
+  private static final int HEIGHT3BY2 = 480;
 
   private Camera mCamera;
   private Font mFont;
@@ -56,15 +63,25 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
   
   final FixtureDef wordFixtureDef = PhysicsFactory.createFixtureDef(1, 0.1f,
       0.5f);
+  
+  private void setCameraDimensions() {
+	DisplayMetrics metrics = new DisplayMetrics();
+	getWindowManager().getDefaultDisplay().getMetrics(metrics);
+	
+	if((metrics.widthPixels / metrics.heightPixels) >= (16/9)) {
+		CAMERA_WIDTH = WIDTH16BY9;
+		CAMERA_HEIGHT = HEIGHT16BY9;
+	} else {
+		CAMERA_WIDTH = WIDTH3BY2;
+		CAMERA_HEIGHT = HEIGHT3BY2;
+	}	
+  }
 
   public Engine onLoadEngine() {
-    DisplayMetrics metrics = new DisplayMetrics();
-    getWindowManager().getDefaultDisplay().getMetrics(metrics);
-    CAMERA_WIDTH = metrics.widthPixels;
-    CAMERA_HEIGHT = metrics.heightPixels;
+    setCameraDimensions();
     this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
     return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE,
-        new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT),
+        new FillResolutionPolicy(),
         this.mCamera));
   }
 
