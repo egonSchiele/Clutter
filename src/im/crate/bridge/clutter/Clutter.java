@@ -14,7 +14,6 @@ import org.anddev.andengine.engine.handler.IUpdateHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
-import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
@@ -24,6 +23,7 @@ import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
+import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
@@ -31,25 +31,17 @@ import org.anddev.andengine.sensor.accelerometer.AccelerometerData;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Toast;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
-public class Clutter extends BaseGameActivity implements IAccelerometerListener, OnClickListener {
+public class Clutter extends BaseGameActivity implements IAccelerometerListener {
     private static int CAMERA_WIDTH;
     private static int CAMERA_HEIGHT;
     
@@ -64,21 +56,13 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener,
     private Font mEnglishFont;
     private PhysicsWorld mPhysicsWorld;
     private ArrayList<String[]> wordlist = new ArrayList<String[]>();
-    private ArrayList<Word> words = new ArrayList<Word>();
     private Map<String,String> inscene = new HashMap<String,String>();
     private String currentWord;
     final Random random = new Random();
-    
+    private Word correctWord;
     
     final FixtureDef wordFixtureDef = PhysicsFactory.createFixtureDef(1, 0.1f, 0.5f);
     
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		v.setVisibility(View.INVISIBLE);
-		// System.out.println("testing click");
-		// Log.d("test","click");
-	}
-
     private void setCameraDimensions() {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -128,25 +112,25 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener,
         }
     }
     
-    class Word extends View{
+    class Word {
         Text txtShape;
         Body txtBody;
-        Font txtFont;
         
         public Word(Font font, String text) {
-        	super(getApplicationContext());
-            txtFont = font;
-            txtShape = new Text(100, 100, font, text);
-            txtBody = PhysicsFactory.createBoxBody(mPhysicsWorld, txtShape,
-                BodyType.DynamicBody, wordFixtureDef);
-            mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(
-                txtShape, txtBody, true, true, true, true));
+        	this(font, text, BodyType.DynamicBody);
         }
         
         public Word(Font font, String text, BodyType bodytype) {
-        	super(getApplicationContext());
-        	txtFont = font;
-            txtShape = new Text(0, 0, font, text);
+            txtShape = new Text(100, 100, font, text){
+    			@Override
+    			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+//    				if (correctWord == this.parent)
+//    				{
+    					this.setVisible(false);
+//    				}
+    				return true;
+    			};
+    		};
             txtBody = PhysicsFactory.createBoxBody(mPhysicsWorld, txtShape,
                 bodytype, wordFixtureDef);
             mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(
@@ -159,7 +143,7 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener,
         this.mEngine.registerUpdateHandler(new FPSLogger());
         
         final Scene scene = new Scene(1);
-        
+		
         final Vector2 gravity = new Vector2(0, 0);
         
         this.mPhysicsWorld = new PhysicsWorld(gravity, false);
@@ -183,15 +167,21 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener,
             BodyType.StaticBody, wallFixtureDef);
         
         // scene.getTopLayer().addEntity(textCenter);
-        for (int i = 0; i < 12; i++)
+        Word newWord;
+        int total_words = 12;
+        for (int i = 0; i < total_words; i++)
         {
             String[] pair = wordlist.get(rand.nextInt(wordlist.size()));
-            Word newWord = new Word(mFont, pair[1]);
-            newWord.setOnClickListener(this);
-            words.add(newWord);
+            newWord = new Word(mFont, pair[1]);
             scene.getTopLayer().addEntity(newWord.txtShape); //Add the French part of 12 random word pairs
-            
+            scene.registerTouchArea(newWord.txtShape);
             inscene.put(pair[0], pair[1]);
+            
+            // by convention, the last word we add is the correct word.
+            if (i == total_words - 1)
+            {
+            	correctWord = newWord;
+            }
         }
         
         currentWord = inscene.keySet().iterator().next();
@@ -220,7 +210,6 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener,
                 // TODO Auto-generated method stub            
             }
         });
-        
         return scene;
     }
     
