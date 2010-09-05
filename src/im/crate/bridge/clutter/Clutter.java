@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.handler.IUpdateHandler;
+import org.anddev.andengine.engine.handler.runnable.RunnableHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
@@ -57,13 +57,15 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
     private Font mEnglishFont;
     private PhysicsWorld mPhysicsWorld;
     private ArrayList<String[]> wordlist = new ArrayList<String[]>();
-    private Map<String,String> inscene = new HashMap<String,String>();
+    private HashMap<String, String[]> inscene = new HashMap<String,String[]>();
     private String currentWord;
+    private Word currentWordObj;
+    private RunnableHandler addremove = new RunnableHandler();
+    
     final Random random = new Random();
-    private Word correctWord;
     
     final FixtureDef wordFixtureDef = PhysicsFactory.createFixtureDef(1, 0.1f, 0.5f);
-    
+   
     private void setCameraDimensions() {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -116,19 +118,61 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
     class Word {
         Text txtShape;
         Body txtBody;
+        String mText;
+        Scene mScene;
+        boolean isEnglishWord;
         
-        public Word(Font font, String text, Vector2 position) {
-        	this(font, text, BodyType.DynamicBody, position);
+        public Word(Font font, String text, Vector2 position, Scene scene) {
+        	this(font, text, BodyType.DynamicBody, position, false, scene);
         }
         
-        public Word(Font font, String text, BodyType bodytype, Vector2 position) {
+        public Word(Font font, String text, BodyType bodytype, Vector2 position, boolean englishword, Scene scene) {
+        	mText = text;
+        	isEnglishWord = englishword;
+        	mScene = scene;
         	txtShape = new Text(position.x, position.y, font, text){
     			@Override
     			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-//    				if (correctWord == this.parent)
-//    				{
-    					this.setVisible(false);
-//    				}
+    				if (!isEnglishWord && inscene.get(currentWord) != null && inscene.get(currentWord)[1] == mText)
+    				{
+    					Log.d("Clutter", "REMOVING THE WORD DUDE. (OR POSTING TO THE MF'ING HANDLER ANYWAY)" + mText);
+    					
+    					inscene.remove(currentWord); //Remove english word from word list
+    					
+    					//Add new english word.. Runnable handlers run in reverse order, this runs AFTER the next one.
+    					addremove.postRunnable(new Runnable() 
+						{
+							public void run() 
+							{
+								currentWord = inscene.keySet().iterator().next();
+								Log.d("Clutter", "Eng word add " + currentWord);
+		    					Vector2 currentWordPos = new Vector2(0, 0);
+		    					currentWordObj = new Word(mEnglishFont, currentWord, BodyType.DynamicBody, currentWordPos, true, mScene);
+		    			        mScene.getTopLayer().addEntity(currentWordObj.txtShape);
+							}
+						});
+    					
+    					addremove.postRunnable(new Runnable() 
+    					{
+    						public void run() 
+    						{
+    							Log.d("Clutter", "Eng word remove.");
+    							mScene.getTopLayer().removeEntity(currentWordObj.txtShape); //Remove from scene
+    							mPhysicsWorld.destroyBody(currentWordObj.txtBody); //Remove from physics.
+    						}
+    					});	
+    						        
+    			        //Remove dead french word
+    					addremove.postRunnable(new Runnable() 
+						{
+							public void run() 
+							{
+								Log.d("Clutter", "French word remove.");
+		    			        mScene.getTopLayer().removeEntity(Word.this.txtShape);	
+							}
+						});
+
+    				}
     				return true;
     			};
     		};
@@ -175,26 +219,28 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
             String[] pair = wordlist.get(rand.nextInt(wordlist.size()));
             Random rand2 = new Random();
             
-            float x = rand2.nextInt(CAMERA_WIDTH - 20)+10;
-            float y = rand2.nextInt(CAMERA_HEIGHT - 20)+10;
+            //float x = rand2.nextInt(CAMERA_WIDTH - 20)+10;
+            //float y = rand2.nextInt(CAMERA_HEIGHT - 20)+10;
+            float x = 100;
+            float y = 100;
             Vector2 posVector = new Vector2(x, y);
-            newWord = new Word(mFont, pair[1], posVector);
+            newWord = new Word(mFont, pair[1], posVector, scene);
             scene.getTopLayer().addEntity(newWord.txtShape); //Add the French part of 12 random word pairs
             scene.registerTouchArea(newWord.txtShape);
-            inscene.put(pair[0], pair[1]);
+            inscene.put(pair[0], pair);
             
-            // by convention, the last word we add is the correct word.
+            // by convention, the last word we add is the first correct word.
             if (i == total_words - 1)
             {
-            	correctWord = newWord;
+            	currentWord = pair[0];
             }
         }
         
-        currentWord = inscene.keySet().iterator().next();
-        Vector2 currentWordPos = new Vector2(100, 100);
-        scene.getTopLayer().addEntity(new Word(mEnglishFont, currentWord, BodyType.DynamicBody, currentWordPos).txtShape);
+        Vector2 currentWordPos = new Vector2(0, 0);
+        currentWordObj = new Word(mEnglishFont, currentWord, BodyType.DynamicBody, currentWordPos, true, scene);
+        scene.getTopLayer().addEntity(currentWordObj.txtShape);
         
-        
+        scene.registerUpdateHandler(addremove);
         scene.registerUpdateHandler(this.mPhysicsWorld);
         scene.registerUpdateHandler(new IUpdateHandler() {        
             public void onUpdate(float pSecondsElapsed) {
