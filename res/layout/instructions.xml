@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    
+    <TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="Instructions"
+    android:textSize="25sp"
+    android:gravity="center_vertical|center_horizontal"    
+    />
+
+    <TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="Placeholder for real instructions. In the drive-through at McDonald's, if the girl says, 'Sorry about the wait', the correct response is 'Nah, it looks good on you.'"
+    />
+    
+ 	<Button   
+   android:id="@+id/back"
+   android:text="Back"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    /> 
+</LinearLayout>

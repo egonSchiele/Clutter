@@ -1,20 +1,15 @@
 package im.crate.bridge.clutter;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageView;
 
 public class Intro extends Activity implements OnClickListener {
 	/** Called when the activity is first created. */
-	Button start;
-	ImageView logo;
+	Button start, instructions;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	  super.onCreate(savedInstanceState);
@@ -23,9 +18,8 @@ public class Intro extends Activity implements OnClickListener {
 	  start = (Button)findViewById(R.id.start);
 	  start.setOnClickListener(this);
 	  
-//	  logo = (ImageView)findViewbyId(R.id.image);
-//	  Bitmap bitmap = BitmapFactory.decodeFile("temp" + cnt + ".jpg");
-//	  imageView.setImageBitmap(bitmap);
+	  instructions = (Button)findViewById(R.id.instructions);
+	  instructions.setOnClickListener(this);
 
 	}
 	
@@ -34,6 +28,10 @@ public class Intro extends Activity implements OnClickListener {
 		if (v.equals(start)){
 			Intent intent = new Intent();
 			intent.setClass(this, Clutter.class);
+			startActivity(intent);
+		}else if (v.equals(instructions)){
+			Intent intent = new Intent();
+			intent.setClass(this, Instructions.class);
 			startActivity(intent);
 		}
 	}
