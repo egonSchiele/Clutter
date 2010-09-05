@@ -35,6 +35,7 @@ import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -116,12 +117,12 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
         Text txtShape;
         Body txtBody;
         
-        public Word(Font font, String text) {
-        	this(font, text, BodyType.DynamicBody);
+        public Word(Font font, String text, Vector2 position) {
+        	this(font, text, BodyType.DynamicBody, position);
         }
         
-        public Word(Font font, String text, BodyType bodytype) {
-            txtShape = new Text(100, 100, font, text){
+        public Word(Font font, String text, BodyType bodytype, Vector2 position) {
+        	txtShape = new Text(position.x, position.y, font, text){
     			@Override
     			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 //    				if (correctWord == this.parent)
@@ -172,7 +173,12 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
         for (int i = 0; i < total_words; i++)
         {
             String[] pair = wordlist.get(rand.nextInt(wordlist.size()));
-            newWord = new Word(mFont, pair[1]);
+            Random rand2 = new Random();
+            
+            float x = rand2.nextInt(CAMERA_WIDTH - 20)+10;
+            float y = rand2.nextInt(CAMERA_HEIGHT - 20)+10;
+            Vector2 posVector = new Vector2(x, y);
+            newWord = new Word(mFont, pair[1], posVector);
             scene.getTopLayer().addEntity(newWord.txtShape); //Add the French part of 12 random word pairs
             scene.registerTouchArea(newWord.txtShape);
             inscene.put(pair[0], pair[1]);
@@ -185,7 +191,8 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
         }
         
         currentWord = inscene.keySet().iterator().next();
-        scene.getTopLayer().addEntity(new Word(mEnglishFont, currentWord, BodyType.StaticBody).txtShape);
+        Vector2 currentWordPos = new Vector2(100, 100);
+        scene.getTopLayer().addEntity(new Word(mEnglishFont, currentWord, BodyType.DynamicBody, currentWordPos).txtShape);
         
         
         scene.registerUpdateHandler(this.mPhysicsWorld);
