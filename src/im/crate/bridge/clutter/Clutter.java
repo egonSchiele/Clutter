@@ -31,6 +31,7 @@ import org.anddev.andengine.sensor.accelerometer.AccelerometerData;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -144,11 +145,19 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
 						{
 							public void run() 
 							{
-								currentWord = inscene.keySet().iterator().next();
-								Log.d("Clutter", "Eng word add " + currentWord);
-		    					Vector2 currentWordPos = new Vector2(0, 0);
-		    					currentWordObj = new Word(mEnglishFont, currentWord, BodyType.DynamicBody, currentWordPos, true, mScene);
-		    			        mScene.getTopLayer().addEntity(currentWordObj.txtShape);
+								if (inscene.keySet().iterator().hasNext())
+								{
+									currentWord = inscene.keySet().iterator().next();
+									Log.d("Clutter", "Eng word add " + currentWord);
+									Vector2 currentWordPos = new Vector2(0, 0);
+									currentWordObj = new Word(mEnglishFont, currentWord, BodyType.DynamicBody, currentWordPos, true, mScene);
+									mScene.getTopLayer().addEntity(currentWordObj.txtShape);
+								} else {
+									Intent intent = new Intent();
+									intent.setClass(getApplicationContext(), Victory.class);
+									startActivity(intent);
+								}
+								
 							}
 						});
     					
