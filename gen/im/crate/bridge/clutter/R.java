@@ -12,6 +12,8 @@ public final class R {
     }
     public static final class drawable {
         public static final int icon=0x7f020000;
+        public static final int scene_intro=0x7f020001;
+        public static final int scene_victory=0x7f020002;
     }
     public static final class id {
         public static final int restart=0x7f050001;

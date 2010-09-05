@@ -222,7 +222,7 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
         
         // scene.getTopLayer().addEntity(textCenter);
         Word newWord;
-        int total_words = 12;
+        int total_words = 1;
         for (int i = 0; i < total_words; i++)
         {
             String[] pair = wordlist.get(rand.nextInt(wordlist.size()));

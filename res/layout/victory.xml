@@ -4,12 +4,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-	<TextView  
+    <ImageView
     android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="You Win!"
-    android:textSize="25sp"
+    android:layout_height="wrap_content"     
     android:gravity="center_vertical|center_horizontal"
+    android:src="@drawable/scene_victory"/>
     />
  	<Button   
    android:id="@+id/restart"
