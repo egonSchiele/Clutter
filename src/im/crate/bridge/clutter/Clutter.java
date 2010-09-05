@@ -58,15 +58,16 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
     private Font mEnglishFont;
     private PhysicsWorld mPhysicsWorld;
     private ArrayList<String[]> wordlist = new ArrayList<String[]>();
-    private HashMap<String, String[]> inscene = new HashMap<String,String[]>();
+    private HashMap<String, ArrayList<String> > inscene = new HashMap<String,ArrayList<String> >();
     private String currentWord;
     private Word currentWordObj;
     private RunnableHandler addremove = new RunnableHandler();
     
     final Random random = new Random();
-    
+    private Scene scene;
     final FixtureDef wordFixtureDef = PhysicsFactory.createFixtureDef(1, 0.1f, 0.5f);
-   
+    
+    
     private void setCameraDimensions() {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -127,60 +128,80 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
         	this(font, text, BodyType.DynamicBody, position, false, scene);
         }
         
-        public Word(Font font, String text, BodyType bodytype, Vector2 position, boolean englishword, Scene scene) {
+        public Word(Font font, String text, BodyType bodytype, Vector2 position, boolean englishword, final Scene scene) {
         	mText = text;
         	isEnglishWord = englishword;
         	mScene = scene;
         	txtShape = new Text(position.x, position.y, font, text){
     			@Override
     			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-    				if (!isEnglishWord && inscene.get(currentWord) != null && inscene.get(currentWord)[1] == mText)
+    				if (!isEnglishWord && inscene.get(currentWord) != null)
     				{
-    					Log.d("Clutter", "REMOVING THE WORD DUDE. (OR POSTING TO THE MF'ING HANDLER ANYWAY)" + mText);
-    					
-    					inscene.remove(currentWord); //Remove english word from word list
-    					
-    					//Add new english word.. Runnable handlers run in reverse order, this runs AFTER the next one.
-    					addremove.postRunnable(new Runnable() 
-						{
-							public void run() 
-							{
-								if (inscene.keySet().iterator().hasNext())
-								{
-									currentWord = inscene.keySet().iterator().next();
-									Log.d("Clutter", "Eng word add " + currentWord);
-									Vector2 currentWordPos = new Vector2(0, 0);
-									currentWordObj = new Word(mEnglishFont, currentWord, BodyType.DynamicBody, currentWordPos, true, mScene);
-									mScene.getTopLayer().addEntity(currentWordObj.txtShape);
-								} else {
-									Intent intent = new Intent();
-									intent.setClass(getApplicationContext(), Victory.class);
-									startActivity(intent);
-								}
-								
-							}
-						});
-    					
-    					addremove.postRunnable(new Runnable() 
-    					{
-    						public void run() 
+    				    String correctTranslation = inscene.get(currentWord).get(0);
+    				    if (correctTranslation != mText)
+    				    {
+                            // wrong guess, add duplicates
+    				    	// TODO: Currently, this crashes while trying to construct newWord.
+//                            Vector2 posVector = new Vector2(100, 100);
+//                            Word newWord = new Word(mFont, correctTranslation, posVector, mScene);
+//                            scene.getTopLayer().addEntity(newWord.txtShape);
+//                            scene.registerTouchArea(newWord.txtShape);
+//                            inscene.get(currentWord).add(correctTranslation);
+    				    } else {
+    				        // correct guess
+        					Log.d("Clutter", "REMOVING THE WORD DUDE. (OR POSTING TO THE MF'ING HANDLER ANYWAY)" + mText);
+        					
+        					/*If we have removed all translations from the screen,
+        					  Remove english word from word list */
+        					if (inscene.get(currentWord).size() == 1)
+        					{
+        						inscene.remove(currentWord); 
+        					} else {
+        						// remove one copy of the translation in the background
+        						inscene.get(currentWord).remove(inscene.get(currentWord).size()-1);
+        					}
+        					//Add new english word.. Runnable handlers run in reverse order, this runs AFTER the next one.
+        					addremove.postRunnable(new Runnable() 
     						{
-    							Log.d("Clutter", "Eng word remove.");
-    							mScene.getTopLayer().removeEntity(currentWordObj.txtShape); //Remove from scene
-    							mPhysicsWorld.destroyBody(currentWordObj.txtBody); //Remove from physics.
-    						}
-    					});	
-    						        
-    			        //Remove dead french word
-    					addremove.postRunnable(new Runnable() 
-						{
-							public void run() 
-							{
-								Log.d("Clutter", "French word remove.");
-		    			        mScene.getTopLayer().removeEntity(Word.this.txtShape);	
-							}
-						});
-
+    							public void run() 
+    							{
+    								if (inscene.keySet().iterator().hasNext())
+    								{
+    									currentWord = inscene.keySet().iterator().next();
+    									Log.d("Clutter", "Eng word add " + currentWord);
+    									Vector2 currentWordPos = new Vector2(0, 0);
+    									currentWordObj = new Word(mEnglishFont, currentWord, BodyType.DynamicBody, currentWordPos, true, mScene);
+    									mScene.getTopLayer().addEntity(currentWordObj.txtShape);
+    								} else {
+    									Intent intent = new Intent();
+    									intent.setClass(getApplicationContext(), Victory.class);
+    									startActivity(intent);
+    								}
+    								
+    							}
+    						});
+        					
+        					// Delete correctly guessed english word.
+        					addremove.postRunnable(new Runnable() 
+        					{
+        						public void run() 
+        						{
+        							Log.d("Clutter", "Eng word remove.");
+        							mScene.getTopLayer().removeEntity(currentWordObj.txtShape); //Remove from scene
+        							mPhysicsWorld.destroyBody(currentWordObj.txtBody); //Remove from physics.
+        						}
+        					});	
+        						        
+        			        //Remove dead french word
+        					addremove.postRunnable(new Runnable() 
+    						{
+    							public void run() 
+    							{
+    								Log.d("Clutter", "French word remove.");
+    		    			        mScene.getTopLayer().removeEntity(Word.this.txtShape);	
+    							}
+    						});
+                        }
     				}
     				return true;
     			};
@@ -192,19 +213,11 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
         }
     }
     
-    public Scene onLoadScene() {
-        Random rand = new Random();
-        this.mEngine.registerUpdateHandler(new FPSLogger());
-        
-        final Scene scene = new Scene(1);
-		
-        final Vector2 gravity = new Vector2(0, 0);
-        
+    public void buildWorld() {
+        final Vector2 gravity = new Vector2(0, 0);        
         this.mPhysicsWorld = new PhysicsWorld(gravity, false);
-        scene.setBackground(new ColorBackground(1.0f, 1.0f, 1.0f));
         
-        final Shape ground = new Rectangle(0, CAMERA_HEIGHT - 2, CAMERA_WIDTH,
-            2);
+        final Shape ground = new Rectangle(0, CAMERA_HEIGHT - 2, CAMERA_WIDTH, 2);
         final Shape roof = new Rectangle(0, 0, CAMERA_WIDTH, 2);
         final Shape left = new Rectangle(0, 0, 2, CAMERA_HEIGHT);
         final Shape right = new Rectangle(CAMERA_WIDTH - 2, 0, 2, CAMERA_HEIGHT);
@@ -219,24 +232,27 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
             BodyType.StaticBody, wallFixtureDef);
         PhysicsFactory.createBoxBody(this.mPhysicsWorld, right,
             BodyType.StaticBody, wallFixtureDef);
-        
-        // scene.getTopLayer().addEntity(textCenter);
+
+    }
+    
+    public void addWords() {
         Word newWord;
-        int total_words = 1;
+        int total_words = 2;
+        Random rand = new Random();            
         for (int i = 0; i < total_words; i++)
         {
             String[] pair = wordlist.get(rand.nextInt(wordlist.size()));
-            Random rand2 = new Random();
-            
-            //float x = rand2.nextInt(CAMERA_WIDTH - 20)+10;
-            //float y = rand2.nextInt(CAMERA_HEIGHT - 20)+10;
+            //float x = rand.nextInt(CAMERA_WIDTH - 20)+10;
+            //float y = rand.nextInt(CAMERA_HEIGHT - 20)+10;
             float x = 100;
             float y = 100;
             Vector2 posVector = new Vector2(x, y);
             newWord = new Word(mFont, pair[1], posVector, scene);
             scene.getTopLayer().addEntity(newWord.txtShape); //Add the French part of 12 random word pairs
             scene.registerTouchArea(newWord.txtShape);
-            inscene.put(pair[0], pair);
+            ArrayList<String> tempArray = new ArrayList<String>();
+            tempArray.add(pair[1]);
+            inscene.put(pair[0],tempArray);
             
             // by convention, the last word we add is the first correct word.
             if (i == total_words - 1)
@@ -248,7 +264,9 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
         Vector2 currentWordPos = new Vector2(0, 0);
         currentWordObj = new Word(mEnglishFont, currentWord, BodyType.DynamicBody, currentWordPos, true, scene);
         scene.getTopLayer().addEntity(currentWordObj.txtShape);
-        
+    }
+    
+    public void registerHandlers() {
         scene.registerUpdateHandler(addremove);
         scene.registerUpdateHandler(this.mPhysicsWorld);
         scene.registerUpdateHandler(new IUpdateHandler() {        
@@ -272,6 +290,18 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
                 // TODO Auto-generated method stub            
             }
         });
+    }
+    
+    public Scene onLoadScene() {
+        this.mEngine.registerUpdateHandler(new FPSLogger());
+        
+        scene = new Scene(1);
+        scene.setBackground(new ColorBackground(1.0f, 1.0f, 1.0f));
+        buildWorld();
+        
+        // scene.getTopLayer().addEntity(textCenter);
+        addWords();
+        registerHandlers();
         return scene;
     }
     
