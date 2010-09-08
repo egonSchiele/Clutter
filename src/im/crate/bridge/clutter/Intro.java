@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 
 public class Intro extends Activity implements OnClickListener {
@@ -13,8 +14,9 @@ public class Intro extends Activity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	  super.onCreate(savedInstanceState);
+      requestWindowFeature(Window.FEATURE_NO_TITLE);
 	  setContentView(R.layout.intro);
-	    
+
 	  start = (Button)findViewById(R.id.start);
 	  start.setOnClickListener(this);
 	  

@@ -96,9 +96,9 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
         Texture mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
         Texture mEnglishFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
         this.mFont = new Font(mFontTexture, Typeface.create(
-            Typeface.SERIF, Typeface.BOLD), 38, true, Color.BLACK);
+            Typeface.SANS_SERIF, Typeface.BOLD), 38, true, Color.BLACK);
         this.mEnglishFont = new Font(mEnglishFontTexture, Typeface.create(
-                Typeface.SERIF, Typeface.ITALIC), 38, true, Color.GREEN);
+                Typeface.SANS_SERIF, Typeface.NORMAL), 38, true, Color.GREEN);
         this.mEngine.getTextureManager().loadTexture(mFontTexture);
         this.mEngine.getTextureManager().loadTexture(mEnglishFontTexture);
         this.mEngine.getFontManager().loadFont(this.mFont); 
@@ -273,7 +273,7 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
         }
         
         Vector2 currentWordPos = new Vector2(0, 0);
-        currentWordObj = new Word(mEnglishFont, currentWord, BodyType.DynamicBody, currentWordPos, true, scene);
+        currentWordObj = new Word(mEnglishFont, currentWord, BodyType.StaticBody, currentWordPos, true, scene);
         scene.getTopLayer().addEntity(currentWordObj.txtShape);
     }
     
