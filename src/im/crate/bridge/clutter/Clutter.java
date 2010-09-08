@@ -1,5 +1,5 @@
 package im.crate.bridge.clutter;
-
+import android.view.MotionEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -52,6 +52,8 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
     private static final int HEIGHT16BY9 = 480;
     private static final int WIDTH3BY2 = 720;
     private static final int HEIGHT3BY2 = 480;
+    private static final int PENALTY = 3;
+    private static final int TOTAL_WORDS = 2;
     
     private Camera mCamera;
     private Font mFont;
@@ -135,18 +137,28 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
         	txtShape = new Text(position.x, position.y, font, text){
     			@Override
     			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-    				if (!isEnglishWord && inscene.get(currentWord) != null)
+    				if (!isEnglishWord && inscene.get(currentWord) != null && pSceneTouchEvent.getAction() == MotionEvent.ACTION_UP)
     				{
     				    String correctTranslation = inscene.get(currentWord).get(0);
     				    if (correctTranslation != mText)
     				    {
                             // wrong guess, add duplicates
-    				    	// TODO: Currently, this crashes while trying to construct newWord.
-//                            Vector2 posVector = new Vector2(100, 100);
-//                            Word newWord = new Word(mFont, correctTranslation, posVector, mScene);
-//                            scene.getTopLayer().addEntity(newWord.txtShape);
-//                            scene.registerTouchArea(newWord.txtShape);
-//                            inscene.get(currentWord).add(correctTranslation);
+        					addremove.postRunnable(new Runnable() 
+    						{
+    							public void run() 
+    							{
+    				                String correctTranslation = inscene.get(currentWord).get(0);
+                                    Vector2 posVector = new Vector2(100, 100);
+
+    				                for (int i = 0; i < PENALTY; i++)
+    				                {
+    				                    Word newWord = new Word(mFont, correctTranslation, posVector, mScene);
+    				                    scene.getTopLayer().addEntity(newWord.txtShape);
+    				                    scene.registerTouchArea(newWord.txtShape);
+    				                    inscene.get(currentWord).add(correctTranslation);
+    				                }                                    
+                                }
+    						});
     				    } else {
     				        // correct guess
         					Log.d("Clutter", "REMOVING THE WORD DUDE. (OR POSTING TO THE MF'ING HANDLER ANYWAY)" + mText);
@@ -237,9 +249,8 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
     
     public void addWords() {
         Word newWord;
-        int total_words = 2;
         Random rand = new Random();            
-        for (int i = 0; i < total_words; i++)
+        for (int i = 0; i < TOTAL_WORDS; i++)
         {
             String[] pair = wordlist.get(rand.nextInt(wordlist.size()));
             //float x = rand.nextInt(CAMERA_WIDTH - 20)+10;
@@ -255,7 +266,7 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener 
             inscene.put(pair[0],tempArray);
             
             // by convention, the last word we add is the first correct word.
-            if (i == total_words - 1)
+            if (i == TOTAL_WORDS - 1)
             {
             	currentWord = pair[0];
             }
