@@ -3,6 +3,9 @@ package im.crate.bridge.clutter;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -22,7 +25,7 @@ public class Intro extends Activity implements OnClickListener {
 	  
 	  instructions = (Button)findViewById(R.id.instructions);
 	  instructions.setOnClickListener(this);
-
+	 
 	}
 	
 	public void onClick(View v) {
@@ -38,4 +41,23 @@ public class Intro extends Activity implements OnClickListener {
 		}
 	}
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+	    super.onCreateOptionsMenu(menu);
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.settings, menu);
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+	    if(item.getItemId() == R.id.settings)
+	    {
+	        startActivity(new Intent(this, Prefs.class));
+	        return true;
+	    }
+	    return false;
+	}
 }
