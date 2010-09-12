@@ -1,0 +1,77 @@
+Vocab1:
+of:de
+to:à
+and:et
+in:dans
+to be:être
+it:ce
+you:vous
+that:ça
+he:il
+for:pour
+on:sur
+with:avec
+as:comme
+I:je
+they:on
+at:à
+one:un
+to have:avoir
+this:ce
+from:de
+or:or
+by:de
+hot:épicé
+but:mais
+some:quelques
+what:quel
+there:là
+we:nous
+to be able:pouvoir
+out:hors
+other:autre
+all:tout
+to say:dire
+each:chaque
+she:elle
+which:quel
+to do:faire
+time:temps
+if:si
+way:voie
+about:autour
+many:beaucoup
+then:alors
+them:les
+to write:écrire
+like:comme
+so:aussi
+these:ces
+long:long
+to make:faire
+
+Vocab2:
+
+Vocab3:
+
+Nouns1:
+
+Nouns2:
+
+Nouns3:
+
+Verbs1:
+
+Verbs2:
+
+Verbs3:
+
+Conjugations1:
+
+Conjugations2:
+
+Conjugations3:
+
+Numbers:
+
+Colors:

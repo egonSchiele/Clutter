@@ -5,16 +5,27 @@
     android:layout_height="fill_parent"
     android:padding="30dip"
     >
-    <ImageView
-    android:layout_width="fill_parent" 
+    <TableLayout
+    android:layout_width="wrap_content" 
     android:layout_height="wrap_content"     
-    android:gravity="center_vertical|center_horizontal"
+    android:gravity="center"
+    android:stretchColumns="*"
+    >
+    <TableRow>
+    <ImageView
+    android:layout_width="wrap_content" 
+    android:layout_height="140dip"     
+    android:gravity="center_horizontal"
     android:src="@drawable/scene_victory"
     />
+    </TableRow>
+    <TableRow>
  	<Button   
-   android:id="@+id/restart"
-   android:text="Restart"
+    android:id="@+id/restart"
+    android:text="Restart"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content"
     /> 
+    </TableRow>
+    </TableLayout>
 </LinearLayout>
