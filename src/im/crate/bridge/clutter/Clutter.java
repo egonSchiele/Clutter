@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -60,7 +61,7 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener
   private Font mFont;
   private Font mEnglishFont;
   private PhysicsWorld mPhysicsWorld;
-  private ArrayList<String[]> wordlist = new ArrayList<String[]>();
+  private ArrayList<String[]> stringlist = new ArrayList<String[]>();
   private HashMap<String, ArrayList<String>> inscene = new HashMap<String, ArrayList<String>>();
   private String currentWord;
   private Word currentWordObj;
@@ -118,7 +119,7 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener
       String line;
       while ((line = wordrdr.readLine()) != null)
       {
-        wordlist.add(new String[]{line.substring(0, line.indexOf(":")),
+        stringlist.add(new String[]{line.substring(0, line.indexOf(":")),
             line.substring(line.indexOf(":") + 1)});
       }
     } catch (IOException e)
@@ -126,6 +127,31 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+  }
+  
+  class WordList<Word> extends ArrayList<Word> {
+  	
+  	public WordList(int number_of_words){
+  		/*for (int i=0; i<number_of_words; i++){
+  			Vector2 posVector = new Vector2(100, 100);
+				Word newWord = new Word(mFont, pair[1], posVector, scene);
+  			this.add(newWord);
+  		}*/
+  	}
+  	public void jumble(){
+  		int lockedUpto = 10;
+  		
+  		ArrayList<Word> dummyList = new ArrayList<Word>();
+  		for (int i = lockedUpto; i<this.size(); i++){
+  			dummyList.add(this.get(i));
+  		}
+  		
+  		Collections.shuffle(dummyList);
+  		
+  		this.removeRange(lockedUpto, this.size());
+  		this.addAll(dummyList);
+  	}
+  	
   }
   
   class Word
@@ -287,7 +313,7 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener
     Random rand = new Random();
     for (int i = 0; i < TOTAL_WORDS; i++)
     {
-      String[] pair = wordlist.get(rand.nextInt(wordlist.size()));
+      String[] pair = stringlist.get(rand.nextInt(stringlist.size()));
       // float x = rand.nextInt(CAMERA_WIDTH - 20)+10;
       // float y = rand.nextInt(CAMERA_HEIGHT - 20)+10;
       float x = 100;
