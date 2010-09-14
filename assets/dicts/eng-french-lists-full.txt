@@ -51,8 +51,611 @@ long:long
 to make:faire
 
 Vocab2:
+thing:
+to see:
+him:
+two:
+to look:
+more:
+day:
+to go:
+to come:
+my:
+sound:
+no:
+most:
+number:
+who:
+over:
+know:
+water:
+than:
+to call:
+first:
+people:
+may:
+down:
+side:
+now:
+to find:
+any:
+new:
+to work:
+part:
+to take:
+to get:
+place:
+to live:
+where:
+after:
+back:
+little:
+only:
+round:
+man:
+year:
+to show:
+every:
+good:
+me:
+to give:
+our:
+under:
 
 Vocab3:
+name:
+very:
+through:
+just:
+form:
+much:
+great:
+to think:
+to help:
+low:
+line:
+before:
+to turn:
+to cause:
+same:
+mean:
+to differ:
+to move:
+right:
+boy:
+old:
+too:
+sentence:
+set:
+three:
+to want:
+air:
+well:
+also:
+to play:
+small:
+end:
+to put:
+home:
+to read:
+hand:
+port:
+large:
+to spell:
+to add:
+even:
+land:
+here:
+must:
+big:
+high:
+such:
+to follow:
+to act:
+why:
+
+Vocab4:
+to ask:
+men:
+to change:
+light:
+kind:
+off:
+to need:
+house:
+picture:
+to try:
+us:
+again:
+animal:
+to point:
+mother:
+world:
+near:
+to build:
+self:
+earth
+father:
+head:
+to stand:
+to own:
+page:
+should:
+country:
+to answer:
+school:
+to grow:
+to study:
+still:
+to learn:
+plant:
+to cover:
+food:
+sun:
+four:
+thought:
+to allow:
+to keep:
+eye:
+never:
+last:
+door:
+between:
+city:
+tree:
+to cross:
+since:
+
+Vocab5:
+hard:
+start:
+might:
+story:
+far:
+sea:
+to draw:
+left:
+late:
+to run:
+while:
+to press:
+close:
+to close:
+night:
+real:
+life:
+few:
+to stop:
+to open:
+to seem:
+together:
+next:
+white:
+children:
+to begin:
+to walk:
+example:
+ease:
+paper:
+often:
+always:
+music:
+those:
+both:
+to mark:
+book:
+letter:
+until:
+mile:
+river:
+car:
+feet:
+to care:
+second:
+group:
+to carry:
+rain:
+to eat:
+room:
+
+Vocab6:
+friend:
+idea:
+fish:
+mountain:
+north:
+once:
+base:
+to hear:
+horse:
+to cut:
+sure:
+to watch:
+color:
+face:
+wood:
+main:
+enough:
+plain:
+girl:
+usual:
+young:
+ready:
+above:
+ever:
+red:
+list:
+though:
+to feel:
+bird:
+soon:
+body:
+dog:
+family:
+direct:
+to pose:
+to leave:
+song:
+to measure:
+state:
+product:
+black:
+short:
+numeral:
+class:
+wind:
+question:
+to happen:
+complete:
+ship:
+area:
+
+Vocab7:
+half:
+rock:
+order:
+fire:
+south:
+problem:
+piece:
+to know:
+to pass:
+farm:
+top:
+whole:
+king:
+size:
+best:
+hour:
+better:
+true:
+during:
+hundred:
+to remember:
+to step:
+early:
+to hold:
+west:
+ground:
+interest:
+to reach:
+fast:
+five:
+to sing:
+to listen:
+six:
+table:
+to travel:
+less:
+morning:
+ten:
+simple:
+several:
+vowel:
+toward:
+war:
+to lay:
+against:
+pattern:
+slow:
+center:
+to love:
+person:
+
+Vocab8:
+money:
+to serve:
+to appear:
+road:
+map:
+science:
+to rule:
+to govern:
+to pull:
+cold:
+notice:
+voice:
+to fall:
+power:
+town:
+fine:
+certain:
+to fly:
+unit:
+to lead:
+to cry:
+dark:
+machine:
+note:
+to wait:
+to plan:
+to figure:
+star:
+box:
+noun:
+field:
+to rest:
+correct:
+pound:
+done:
+beauty:
+to drive:
+to contain:
+front:
+to teach:
+week:
+final:
+green:
+oh:
+quick:
+to develop:
+to sleep:
+warm:
+free:
+minute:
+strong:
+special:
+mind:
+behind:
+clear:
+tail:
+to produce:
+fact:
+street:
+inch:
+lot:
+nothing:
+course:
+to stay:
+wheel:
+full:
+force:
+blue:
+object:
+to decide:
+surface:
+deep:
+moon:
+island:
+foot:
+yet:
+busy:
+test:
+record:
+boat:
+common:
+gold:
+possible:
+plane:
+age:
+dry:
+to wonder:
+to laugh:
+thousand:
+ago:
+to check:
+game:
+shape:
+yes:
+hot:
+miss:
+to bring:
+heat:
+snow:
+bed:
+to sit:
+perhaps:
+fill:
+east:
+weight:
+language:
+among:
+about:
+after:
+again:
+air:
+all:
+along:
+also:
+and:
+another:
+any:
+around:
+as:
+at:
+away:
+back:
+because:
+before:
+below:
+between:
+both:
+but:
+by:
+day:
+different:
+down:
+each:
+end:
+even:
+every:
+few:
+find:
+first:
+for:
+found:
+from:
+to get:
+to give:
+good:
+great:
+to have:
+he:
+to help:
+her:
+here:
+him:
+his:
+home:
+house:
+how:
+I:
+if:
+in:
+into:
+it:
+its:
+just:
+to know:
+large:
+last:
+left:
+like:
+line:
+little:
+long:
+to look:
+man:
+many:
+may:
+me:
+men:
+might:
+more:
+most:
+Mr.:
+must:
+my:
+name:
+never:
+new:
+next:
+no:
+not:
+now:
+number:
+of:
+off:
+old:
+on:
+one:
+only:
+or:
+other:
+our:
+out:
+over:
+own:
+part:
+people:
+place:
+put:
+right:
+same:
+she:
+should:
+to show:
+small:
+so:
+some:
+something:
+to sound:
+still:
+such:
+to take:
+to tell:
+than:
+that:
+the:
+them:
+then:
+there:
+these:
+they:
+thing:
+to think:
+this:
+those:
+thought:
+three:
+through:
+time:
+to:
+together:
+too:
+two:
+under:
+up:
+us:
+use:
+very:
+to want:
+water:
+way:
+we:
+well:
+went:
+what:
+when:
+where:
+which:
+while:
+who:
+why:
+will:
+with:
+word:
+to work:
+world:
+would:
+to write:
+year:
+you:
+your:
+
+Vocab9:
+
+Vocab10:
+
+Vocab11:
+
+Vocab12:
+
+Vocab13:
+
+Vocab14:
+
+Vocab15:
+
+Vocab16:
+
+Vocab17:
+
+Vocab18:
+
+Vocab19:
+
+Vocab20:
 
 Nouns1:
 
