@@ -10,12 +10,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 public class Intro extends Activity implements OnClickListener
 {
   /** Called when the activity is first created. */
-  Button start, instructions;
+  ImageButton start, instructions;
   
   @Override
   public void onCreate(Bundle savedInstanceState)
@@ -27,10 +27,10 @@ public class Intro extends Activity implements OnClickListener
 
     setContentView(R.layout.intro);
     
-    start = (Button) findViewById(R.id.start);
+    start = (ImageButton) findViewById(R.id.start);
     start.setOnClickListener(this);
     
-    instructions = (Button) findViewById(R.id.instructions);
+    instructions = (ImageButton) findViewById(R.id.instructions);
     instructions.setOnClickListener(this);
     
   }

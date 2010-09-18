@@ -10,18 +10,32 @@
     android:layout_height="wrap_content"     
     android:gravity="center_vertical|center_horizontal"
     android:src="@drawable/scene_intro"
-
     />
- 	<Button   
+ 	<ImageButton   
     android:id="@+id/start"
     android:text="Start"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content"
+    android:src="@drawable/button_play"
+    android:background="@null"
+    android:scaleType="fitCenter"    
     /> 
- 	<Button   
+ 	<ImageButton   
     android:id="@+id/instructions"
     android:text="Instructions"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content"
+    android:src="@drawable/button_instructions"
+    android:background="@null"
+    android:scaleType="fitCenter"
+    />
+    <ImageButton   
+    android:id="@+id/settings"
+    android:text="Settings"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    android:src="@drawable/button_settings"
+    android:background="@null"
+    android:scaleType="fitCenter"
     />
 </LinearLayout>

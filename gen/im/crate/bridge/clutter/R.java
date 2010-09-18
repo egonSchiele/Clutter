@@ -11,15 +11,30 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int icon=0x7f020000;
-        public static final int scene_intro=0x7f020001;
-        public static final int scene_victory=0x7f020002;
+        public static final int button_back=0x7f020000;
+        public static final int button_back_default=0x7f020001;
+        public static final int button_back_pressed=0x7f020002;
+        public static final int button_instructions=0x7f020003;
+        public static final int button_instructions_default=0x7f020004;
+        public static final int button_instructions_pressed=0x7f020005;
+        public static final int button_play=0x7f020006;
+        public static final int button_play_default=0x7f020007;
+        public static final int button_play_pressed=0x7f020008;
+        public static final int button_restart=0x7f020009;
+        public static final int button_restart_default=0x7f02000a;
+        public static final int button_restart_pressed=0x7f02000b;
+        public static final int button_settings=0x7f02000c;
+        public static final int button_settings_default=0x7f02000d;
+        public static final int button_settings_pressed=0x7f02000e;
+        public static final int icon=0x7f02000f;
+        public static final int scene_intro=0x7f020010;
+        public static final int scene_victory=0x7f020011;
     }
     public static final class id {
         public static final int back=0x7f070000;
         public static final int instructions=0x7f070002;
-        public static final int restart=0x7f070003;
-        public static final int settings=0x7f070004;
+        public static final int restart=0x7f070004;
+        public static final int settings=0x7f070003;
         public static final int start=0x7f070001;
     }
     public static final class layout {

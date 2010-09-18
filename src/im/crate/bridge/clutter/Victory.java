@@ -7,11 +7,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 public class Victory extends Activity implements OnClickListener {
 	/** Called when the activity is first created. */
-	Button restart; 
+	ImageButton restart; 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	  super.onCreate(savedInstanceState);
@@ -20,7 +20,7 @@ public class Victory extends Activity implements OnClickListener {
         WindowManager.LayoutParams.FLAG_FULLSCREEN);
     setContentView(R.layout.victory);
 	    
-	  restart = (Button)findViewById(R.id.restart);
+	  restart = (ImageButton)findViewById(R.id.restart);
 	  restart.setOnClickListener(this);
 	}
 	
@@ -32,5 +32,4 @@ public class Victory extends Activity implements OnClickListener {
 			startActivity(intent);
 		}
 	}
-	
 }

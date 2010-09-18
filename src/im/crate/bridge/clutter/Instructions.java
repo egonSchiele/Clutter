@@ -7,11 +7,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 public class Instructions extends Activity implements OnClickListener {
 	/** Called when the activity is first created. */
-	Button back; 
+	ImageButton back; 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	  super.onCreate(savedInstanceState);
@@ -20,7 +20,7 @@ public class Instructions extends Activity implements OnClickListener {
         WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	  setContentView(R.layout.instructions);
 	    
-	  back = (Button)findViewById(R.id.back);
+	  back = (ImageButton)findViewById(R.id.back);
 	  back.setOnClickListener(this);
 	}
 	

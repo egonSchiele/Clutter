@@ -55,7 +55,7 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener
   private static final int WIDTH3BY2 = 720;
   private static final int HEIGHT3BY2 = 480;
   private static final int PENALTY = 3;
-  private static final int TOTAL_WORDS = 5;
+  private static final int TOTAL_WORDS = 2;
   
   private Camera mCamera;
   private Font mFont;
@@ -139,6 +139,7 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener
   		}*/
   	}
   	public void jumble(){
+  	  // TODO:  whoever did this, please fix the magic number
   		int lockedUpto = 10;
   		
   		ArrayList<Word> dummyList = new ArrayList<Word>();

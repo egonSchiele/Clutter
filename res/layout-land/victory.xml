@@ -20,11 +20,14 @@
     />
     </TableRow>
     <TableRow>
- 	<Button   
+    <ImageButton   
     android:id="@+id/restart"
     android:text="Restart"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content"
+    android:src="@drawable/button_restart"
+    android:background="@null"
+    android:scaleType="fitCenter"
     /> 
     </TableRow>
     </TableLayout>
