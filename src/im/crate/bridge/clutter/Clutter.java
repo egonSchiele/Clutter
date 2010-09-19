@@ -55,7 +55,7 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener
   private static final int WIDTH3BY2 = 720;
   private static final int HEIGHT3BY2 = 480;
   private static final int PENALTY = 3;
-  private static final int TOTAL_WORDS = 2;
+  private static final int TOTAL_WORDS = 5;
   
   private Camera mCamera;
   private Font mFont;
@@ -102,7 +102,7 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener
     Texture mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
     Texture mEnglishFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
     this.mFont = new Font(mFontTexture, Typeface.create(Typeface.SANS_SERIF,
-        Typeface.BOLD), 38, true, Color.BLACK);
+        Typeface.BOLD), 75, true, Color.BLACK);
     this.mEnglishFont = new Font(mEnglishFontTexture, Typeface.create(
         Typeface.SANS_SERIF, Typeface.NORMAL), 38, true, Color.GREEN);
     this.mEngine.getTextureManager().loadTexture(mFontTexture);
@@ -392,8 +392,8 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener
   
   public void onAccelerometerChanged(final AccelerometerData pAccelerometerData)
   {
-    // this.mPhysicsWorld.setGravity(new Vector2(pAccelerometerData.getY(),
-    // pAccelerometerData.getX()));
+    this.mPhysicsWorld.setGravity(new Vector2(pAccelerometerData.getY(),
+    pAccelerometerData.getX()));
   }
   
   public void onLoadComplete()
