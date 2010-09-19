@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.handler.IUpdateHandler;
@@ -15,6 +17,15 @@ import org.anddev.andengine.engine.handler.runnable.RunnableHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
+import org.anddev.andengine.entity.particle.ParticleSystem;
+import org.anddev.andengine.entity.particle.modifier.AccelerationInitializer;
+import org.anddev.andengine.entity.particle.modifier.AlphaModifier;
+import org.anddev.andengine.entity.particle.modifier.ColorInitializer;
+import org.anddev.andengine.entity.particle.modifier.ColorModifier;
+import org.anddev.andengine.entity.particle.modifier.ExpireModifier;
+import org.anddev.andengine.entity.particle.modifier.RotationInitializer;
+import org.anddev.andengine.entity.particle.modifier.ScaleModifier;
+import org.anddev.andengine.entity.particle.modifier.VelocityInitializer;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
@@ -28,6 +39,8 @@ import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.sensor.accelerometer.AccelerometerData;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
@@ -71,6 +84,8 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener
   private Scene scene;
   final FixtureDef wordFixtureDef = PhysicsFactory.createFixtureDef(1, 0.1f,
       0.5f);
+  private Texture mParticle;
+  private TextureRegion mParticleTextureRegion;
   
   private void setCameraDimensions()
   {
@@ -109,6 +124,10 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener
     this.mEngine.getTextureManager().loadTexture(mEnglishFontTexture);
     this.mEngine.getFontManager().loadFont(this.mFont);
     this.mEngine.getFontManager().loadFont(this.mEnglishFont);
+
+    this.mParticle = new Texture(32, 32, TextureOptions.BILINEAR);
+	this.mParticleTextureRegion = TextureRegionFactory.createFromAsset(this.mParticle, this, "textures/particle.png", 0, 0);
+	this.mEngine.getTextureManager().loadTexture(this.mParticle);
     
     this.enableAccelerometerSensor(this);
     
@@ -239,6 +258,8 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener
                     currentWordObj = new Word(mEnglishFont, currentWord,
                         BodyType.DynamicBody, currentWordPos, true, mScene);
                     mScene.getTopLayer().addEntity(currentWordObj.txtShape);
+                    
+                    
                   } else
                   {
                     Intent intent = new Intent();
@@ -255,12 +276,9 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener
                 public void run()
                 {
                   Log.d("Clutter", "Eng word remove.");
-                  mScene.getTopLayer().removeEntity(currentWordObj.txtShape); // Remove
-                  // from
-                  // scene
-                  mPhysicsWorld.destroyBody(currentWordObj.txtBody); // Remove
-                  // from
-                  // physics.
+                  mScene.getTopLayer().removeEntity(currentWordObj.txtShape); // Remove from scene
+                  
+                  mPhysicsWorld.destroyBody(currentWordObj.txtBody); // Remove from physics.
                 }
               });
               
@@ -271,6 +289,27 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener
                 {
                   Log.d("Clutter", "French word remove.");
                   mScene.getTopLayer().removeEntity(Word.this.txtShape);
+                	/* Left to right Particle System. */
+                	{
+                		final ParticleSystem particleSystem = new ParticleSystem(Word.this.txtShape.getX(), Word.this.txtShape.getY(), 0, 0, 6, 10, 20, mParticleTextureRegion);
+                		
+
+                		particleSystem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
+
+                		particleSystem.addParticleInitializer(new VelocityInitializer(15, 22, -60, -90));
+                		particleSystem.addParticleInitializer(new AccelerationInitializer(5, 15));
+                		particleSystem.addParticleInitializer(new RotationInitializer(0.0f, 360.0f));
+                		particleSystem.addParticleInitializer(new ColorInitializer(1.0f, 0.0f, 0.0f));
+
+                		particleSystem.addParticleModifier(new ScaleModifier(0.5f, 2.0f, 0, 5));
+                		particleSystem.addParticleModifier(new ExpireModifier(11.5f));
+                		particleSystem.addParticleModifier(new AlphaModifier(1.0f, 0.0f, 2.5f, 3.5f));
+                		particleSystem.addParticleModifier(new AlphaModifier(0.0f, 1.0f, 3.5f, 4.5f));
+                		particleSystem.addParticleModifier(new ColorModifier(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 11.5f));
+                		particleSystem.addParticleModifier(new AlphaModifier(1.0f, 0.0f, 4.5f, 11.5f));
+                		scene.getTopLayer().addEntity(particleSystem);
+                	}
+
                 }
               });
             }
@@ -381,12 +420,13 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener
     this.mEngine.registerUpdateHandler(new FPSLogger());
     
     scene = new Scene(1);
-    scene.setBackground(new ColorBackground(1.0f, 1.0f, 1.0f));
+    scene.setBackground(new ColorBackground(0.5f, 0.5f, 0.5f));
     buildWorld();
     
     // scene.getTopLayer().addEntity(textCenter);
     addWords();
     registerHandlers();
+        
     return scene;
   }
   
