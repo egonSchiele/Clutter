@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Clutter</string>
+    <string name="instructions">
+    Easy peasy.  You see that green word floating on the screen?
+    Find the matching word in black text floating around.  If you\'ve
+    got English in green, find the word that means the same thing in
+    French.</string>
 </resources>

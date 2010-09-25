@@ -134,7 +134,7 @@ public class Clutter extends BaseGameActivity implements IAccelerometerListener
     try
     {
       BufferedReader wordrdr = new BufferedReader(new InputStreamReader(
-          assetManager.open("dicts/eng-french-lists.txt")));
+          assetManager.open("dicts/vocab.txt")));
       String line;
       while ((line = wordrdr.readLine()) != null)
       {

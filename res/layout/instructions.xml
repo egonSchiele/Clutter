@@ -5,24 +5,24 @@
     android:layout_height="fill_parent"
     android:padding="30dip"
     >
-  
-    <TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
+
+    <TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
     android:text="Instructions"
     android:textSize="25sp"
-    android:gravity="center_vertical|center_horizontal"    
+    android:gravity="center_vertical|center_horizontal"
     />
 
-    <TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="Placeholder for real instructions. In the drive-through at McDonald's, if the girl says, 'Sorry about the wait', the correct response is 'Nah, it looks good on you.'\n"
+    <TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/instructions"
     />
-    <ImageButton   
+    <ImageButton
     android:id="@+id/back"
     android:text="Back"
-    android:layout_width="fill_parent" 
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:src="@drawable/button_back"
     android:background="@null"
